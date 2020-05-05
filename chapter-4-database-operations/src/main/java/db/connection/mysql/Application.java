@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.text.GapContent;
+
 import db.connection.mysql.connection.dao.DepartmentDAO;
 import db.connection.mysql.connection.dao.EmployeeDAO;
 import db.connection.mysql.connection.dao.ManagerDAO;
 import db.connection.mysql.connection.dao.SalaryDAO;
+import db.connection.mysql.connection.model.Department;
 import db.connection.mysql.connection.model.Employee;
 import db.connection.mysql.connection.model.EmployeeProfile;
+import db.connection.mysql.connection.model.Manager;
 import db.connection.mysql.connection.service.DepartmentService;
 import db.connection.mysql.connection.service.EmployeeService;
 import db.connection.mysql.connection.service.ManagerService;
@@ -69,10 +73,12 @@ public class Application {
 					System.out.println();
 					break;
 				case 7:
-					// burada aktif yöneticileri listeleyen bir fonksiyon yazmalısınız.
+					listActiveManagers(managerService);
+					System.out.println();
 					break;
 				case 8:
-					// burada tüm departmanları listeleyiniz.
+					listDepartments(departmentService);
+					System.out.println();
 					break;
 				default:
 					break;
@@ -201,14 +207,47 @@ public class Application {
 	}
 	
 	public static void listActiveManagers(ManagerService managerService) {
+		List<Manager> managers=managerService.getActiveManagers();
+
+		for (Manager manager : managers) {
+			StringBuilder textBuilder=new StringBuilder();
+			textBuilder.append("[");
+			textBuilder.append(manager.getEmployee().getId());
+			textBuilder.append("--");
+			textBuilder.append(manager.getEmployee().getName());
+			textBuilder.append("--");
+			textBuilder.append(manager.getEmployee().getLastName());
+			textBuilder.append("--");
+			textBuilder.append(manager.getEmployee().getGender());
+			textBuilder.append("--");
+			textBuilder.append(manager.getEmployee().getBirthDate());
+			textBuilder.append("--");
+			textBuilder.append(manager.getEmployee().getHireDate());
+			textBuilder.append("--");
+			textBuilder.append(manager.getDepartmentName());
+			textBuilder.append("]");
+			System.out.println(textBuilder.toString());
+		}
 		
-		// Burada ManagerService üzerinden aktif yöneticilerin listesini çekiniz ve ekrana yazdırınız
 		
 	}
 	
 	public static void listDepartments(DepartmentService departmentService) {
 		
-		// Burada tğm departmanları listeleyen ve ekrana gösteren kodu yazınız.
+		List<Department> departments=departmentService.AllDepartments();
+		
+		for (Department department : departments) {
+			StringBuilder texBuilder=new StringBuilder();
+			texBuilder.append("[");
+			texBuilder.append(department.getDeptNo());
+			texBuilder.append("--");
+			texBuilder.append(department.getName());
+			texBuilder.append("]");
+			System.out.println(texBuilder);
+
+		}
+		
+		
 	}
 
 }

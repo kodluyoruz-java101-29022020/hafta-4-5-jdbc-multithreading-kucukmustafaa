@@ -1,7 +1,9 @@
 package db.connection.mysql.connection.dao;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -20,15 +22,18 @@ public class DepartmentDAO {
 		List<Department> departments = new ArrayList<Department>();
 		
 		// Tüm departman listesini çeken SQL komutunu aşağıdaki satıra yazınız.
-		ResultSet resultSet = DbSQLQuery.select("<Bu SQL sorgusunu oluştur>");
+		ResultSet resultSet = DbSQLQuery.select("select * from departments");
 		
 		try {
+			if (resultSet==null) {
+				return departments;
+			}
+			else {
+				while (resultSet.next()) {
+					departments.add(separateResutlt(resultSet));
+				}
+			}
 			
-			// ResultSet içinde veritabanından gelen department kayıtları var.
-			// ResultSet üzerinde satır satır ilerleyerek bir Department listesi oluştur.
-			// List<Department> departments bu listeye elemanları ekleyeceksiniz.
-			
-			// Kodlar ... :)
 			
 		}
 		catch (Exception e) {
@@ -37,5 +42,16 @@ public class DepartmentDAO {
 		
 		return departments;
 	}
+	
+	public static Department separateResutlt(ResultSet resultSet) throws SQLException {
+		String dept_no=resultSet.getString("dept_no");
+		String dept_name=resultSet.getString("dept_name");
+		
+		return new Department(dept_no, dept_name);
+		
+	}
+	
+	
+	
 	
 }

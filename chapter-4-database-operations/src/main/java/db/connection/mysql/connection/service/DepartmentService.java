@@ -1,6 +1,9 @@
 package db.connection.mysql.connection.service;
 
+import java.util.List;
+
 import db.connection.mysql.connection.dao.DepartmentDAO;
+import db.connection.mysql.connection.model.Department;
 
 public class DepartmentService {
 
@@ -11,4 +14,8 @@ public class DepartmentService {
 	}
 	
 	// burada tüm departmanları listeleyen fonksiyonu yazınız.
+	
+	public List<Department> AllDepartments(){
+		return this.departmentDAO.getAll();
+	}
 }
